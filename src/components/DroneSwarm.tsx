@@ -1025,22 +1025,61 @@ export const DroneSwarm = ({
         break;
 
       case 'airplane':
-        // Fuselage
-        const fuselageLength = size * 1.5;
-        const wingSpan = size;
+        // ENHANCED REALISTIC AIRPLANE FORMATION - like in the reference image
+        const fuselageLength = size * 2.0; // Longer fuselage
+        const wingSpan = size * 1.8; // Wider wingspan
+        const tailHeight = size * 0.6; // Vertical tail
+        
         for (let i = 0; i < swarmSize; i++) {
-          if (i < swarmSize * 0.4) {
-            // Fuselage
-            const x = (i / (swarmSize * 0.4)) * fuselageLength - fuselageLength / 2;
-            positions.push(new THREE.Vector3(x, 0, 0).add(offset));
+          if (i < swarmSize * 0.35) {
+            // Main fuselage - longer and more detailed
+            const fuselageProgress = i / (swarmSize * 0.35);
+            const x = fuselageProgress * fuselageLength - fuselageLength / 2;
+            // Add some width variation for realistic fuselage shape
+            const fuselageWidth = Math.sin(fuselageProgress * Math.PI) * size * 0.15;
+            const z = (Math.random() - 0.5) * fuselageWidth;
+            positions.push(new THREE.Vector3(x, 0, z).add(offset));
+          } else if (i < swarmSize * 0.55) {
+            // Main wings - more spread out and realistic
+            const wingIndex = i - swarmSize * 0.35;
+            const wingsPerSide = (swarmSize * 0.2) / 2;
+            const isLeftWing = wingIndex < wingsPerSide;
+            const wingProgress = (wingIndex % wingsPerSide) / wingsPerSide;
+            
+            // Wing sweep and taper
+            const wingX = -fuselageLength * 0.1 + wingProgress * size * 0.4; // Slight forward sweep
+            const wingZ = (isLeftWing ? 1 : -1) * (wingProgress * wingSpan / 2 + size * 0.1);
+            const wingY = wingProgress * size * 0.1; // Slight dihedral angle
+            
+            positions.push(new THREE.Vector3(wingX, wingY, wingZ).add(offset));
           } else if (i < swarmSize * 0.7) {
-            // Left wing
-            const wingProgress = (i - swarmSize * 0.4) / (swarmSize * 0.15);
-            positions.push(new THREE.Vector3(0, 0, wingProgress * wingSpan).add(offset));
+            // Wing tips and winglets
+            const wingTipIndex = i - swarmSize * 0.55;
+            const tipsPerSide = (swarmSize * 0.15) / 2;
+            const isLeftTip = wingTipIndex < tipsPerSide;
+            const tipProgress = (wingTipIndex % tipsPerSide) / tipsPerSide;
+            
+            const tipX = size * 0.3 + tipProgress * size * 0.2;
+            const tipZ = (isLeftTip ? 1 : -1) * (wingSpan / 2 + tipProgress * size * 0.3);
+            const tipY = tipProgress * size * 0.3; // Winglet height
+            
+            positions.push(new THREE.Vector3(tipX, tipY, tipZ).add(offset));
+          } else if (i < swarmSize * 0.85) {
+            // Horizontal tail/stabilizer
+            const tailIndex = i - swarmSize * 0.7;
+            const tailProgress = (tailIndex / (swarmSize * 0.15)) - 0.5;
+            const tailX = fuselageLength * 0.4; // Near the back
+            const tailZ = tailProgress * size * 0.8; // Horizontal span
+            
+            positions.push(new THREE.Vector3(tailX, 0, tailZ).add(offset));
           } else {
-            // Right wing
-            const wingProgress = (i - swarmSize * 0.7) / (swarmSize * 0.15);
-            positions.push(new THREE.Vector3(0, 0, -wingProgress * wingSpan).add(offset));
+            // Vertical tail/rudder
+            const rudderIndex = i - swarmSize * 0.85;
+            const rudderProgress = rudderIndex / (swarmSize * 0.15);
+            const rudderX = fuselageLength * 0.35 + rudderProgress * size * 0.3;
+            const rudderY = rudderProgress * tailHeight;
+            
+            positions.push(new THREE.Vector3(rudderX, rudderY, 0).add(offset));
           }
         }
         break;
