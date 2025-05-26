@@ -1,7 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Circle, Square, Line, Random } from 'lucide-react';
+import { Circle, Square } from 'lucide-react';
 import type { FormationType, ColorMode } from '@/pages/Index';
 
 interface FormationControlsProps {
@@ -18,10 +18,10 @@ export const FormationControls = ({
   onColorModeChange,
 }: FormationControlsProps) => {
   const formations: { type: FormationType; label: string; icon: React.ReactNode }[] = [
-    { type: 'line', label: 'Line', icon: <Line size={16} /> },
+    { type: 'line', label: 'Line', icon: <div className="w-4 h-1 bg-current" /> },
     { type: 'circle', label: 'Circle', icon: <Circle size={16} /> },
     { type: 'square', label: 'Square', icon: <Square size={16} /> },
-    { type: 'random', label: 'Random', icon: <Random size={16} /> },
+    { type: 'random', label: 'Random', icon: <div className="w-4 h-4 grid grid-cols-2 gap-0.5"><div className="w-1 h-1 bg-current rounded-full"></div><div className="w-1 h-1 bg-current rounded-full"></div><div className="w-1 h-1 bg-current rounded-full"></div><div className="w-1 h-1 bg-current rounded-full"></div></div> },
   ];
 
   return (

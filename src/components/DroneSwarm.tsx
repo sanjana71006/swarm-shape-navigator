@@ -1,8 +1,25 @@
 
 import { useRef, useEffect, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, extend } from '@react-three/fiber';
 import * as THREE from 'three';
 import type { FormationType, ColorMode } from '@/pages/Index';
+
+// Extend the JSX namespace to include Three.js elements
+extend(THREE);
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      group: any;
+      mesh: any;
+      sphereGeometry: any;
+      meshStandardMaterial: any;
+      ambientLight: any;
+      pointLight: any;
+      gridHelper: any;
+    }
+  }
+}
 
 interface DroneSwarmProps {
   formation: FormationType;

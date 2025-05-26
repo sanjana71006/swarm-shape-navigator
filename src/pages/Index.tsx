@@ -1,10 +1,14 @@
 
-import { Canvas } from '@react-three/fiber';
+import { Canvas, extend } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Suspense, useState } from 'react';
 import { FormationControls } from '@/components/FormationControls';
 import { DroneSwarm } from '@/components/DroneSwarm';
 import { SimulationControls } from '@/components/SimulationControls';
+import * as THREE from 'three';
+
+// Extend the JSX namespace to include Three.js elements
+extend(THREE);
 
 export type FormationType = 'line' | 'circle' | 'square' | 'random';
 export type ColorMode = 'by_index' | 'by_distance';
