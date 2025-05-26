@@ -908,11 +908,11 @@ export const DroneSwarm = ({
         break;
 
       case 'mandala':
-        const layers = 5;
+        const mandalaLayers = 5;
         for (let i = 0; i < swarmSize; i++) {
-          const layer = i % layers;
-          const positionInLayer = Math.floor(i / layers) / Math.floor(swarmSize / layers);
-          const layerRadius = (layer + 1) * size / layers;
+          const layer = i % mandalaLayers;
+          const positionInLayer = Math.floor(i / mandalaLayers) / Math.floor(swarmSize / mandalaLayers);
+          const layerRadius = (layer + 1) * size / mandalaLayers;
           const petalCount = (layer + 1) * 8;
           const angle = positionInLayer * Math.PI * 2 * petalCount / 8;
           const petalPattern = Math.sin(angle * petalCount / 2) * 0.3 + 1;
@@ -1070,14 +1070,14 @@ export const DroneSwarm = ({
         break;
 
       case 'cylinder':
-        const layers = Math.ceil(swarmSize / 20);
+        const cylinderLayers = Math.ceil(swarmSize / 20);
         for (let i = 0; i < swarmSize; i++) {
-          const layer = Math.floor(i / (swarmSize / layers));
-          const angleIndex = i % Math.ceil(swarmSize / layers);
-          const angle = (angleIndex / Math.ceil(swarmSize / layers)) * Math.PI * 2;
+          const layer = Math.floor(i / (swarmSize / cylinderLayers));
+          const angleIndex = i % Math.ceil(swarmSize / cylinderLayers);
+          const angle = (angleIndex / Math.ceil(swarmSize / cylinderLayers)) * Math.PI * 2;
           positions.push(new THREE.Vector3(
             Math.cos(angle) * size,
-            (layer / layers) * size * 2 - size,
+            (layer / cylinderLayers) * size * 2 - size,
             Math.sin(angle) * size
           ).add(offset));
         }
